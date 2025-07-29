@@ -10,11 +10,12 @@ const app = new App({
     appToken: process.env.SLACK_APP_TOKEN,
 })
 
-app.message("hello", async ({ message, client }) => {
+app.message("hello", async ({ message, client, say }) => {
     // FOR AN OPEN CHANNEL
     console.log(message)
     const { channel: channelId } = message
-    await client.chat.postMessage({ channel: channelId, text: "Hello from MediaOS" })
+    //await client.chat.postMessage({ channel: channelId, text: "Hello from MediaOS" })
+    await say("hello back")
 
     // FOR DM MESSAGES
     /* const chat = await client.conversations.open({
@@ -32,6 +33,13 @@ app.message("hello", async ({ message, client }) => {
 })
 
 app.command("/mediaos", async ({ command, ack, respond }) => {
+    // Acknowledge command request
+    await ack()
+
+    await respond(`Bot is up and running ⚡️`)
+})
+
+app.command("/bot-status", async ({ command, ack, respond }) => {
     // Acknowledge command request
     await ack()
 
